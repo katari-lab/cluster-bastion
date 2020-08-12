@@ -8,4 +8,4 @@ RUN go install -v ./...
 RUN go build
 RUN ls
 
-CMD ["cluster-bastion"]
+CMD ["./cluster-bastion"]
