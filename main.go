@@ -10,7 +10,7 @@ import (
 )
 
 type ReadinessRequest struct {
-	endpoint string
+	Endpoint string `json:"endpoint"`
 }
 
 type ReadinessResponse struct {
@@ -25,33 +25,36 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 func ReadinessHandler(w http.ResponseWriter, r *http.Request) {
 	var command ReadinessRequest
 	err := json.NewDecoder(r.Body).Decode(&command)
-
 	//body, err := ioutil.ReadAll(r.Body)
+	//s := string(body)
+	//json.Unmarshal([]byte(s), &command)
+	//fmt.Println(s)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	fmt.Fprint(w, command)
-	/*
-		res, err := http.Get(command.endpoint)
-		if err != nil {
-			log.Fatalln(command.endpoint)
-			log.Fatalln(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-		defer res.Body.Close()
-		body, err := ioutil.ReadAll(res.Body)
-		if err != nil {
-			log.Fatalln(err)
-		} else {
-			fmt.Fprint(w, body)
 
-		}
-	*/
-	w.WriteHeader(http.StatusOK)
-	//fmt.Fprintf(w, "Category: %v\n", vars["category"])
+	res, err := http.Get(command.Endpoint)
+
+	if err != nil {
+		//log.Fatalln(command.Endpoint)
+		//log.Fatalln(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		//w.WriteHeader(http.StatusInternalServerError)
+		//w.Write([]byte("500 - Something bad happened!"))
+	} else {
+		fmt.Println(res)
+		w.WriteHeader(http.StatusOK)
+	}
+
+	//body, err := ioutil.ReadAll(res.Body)
+	//fmt.Fprint(w, body)
+	//fmt.Println(body)
+
 }
 func main() {
+	fmt.Println("Go server on 48602 port")
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/readiness", ReadinessHandler)
