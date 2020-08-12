@@ -4,4 +4,4 @@ services:
         build:
           context: ./..
           dockerfile: ./container/Dockerfile
-        image: katari/bastion
+        image: katarilab/bastion
