@@ -54,7 +54,7 @@ func ReadinessHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 func main() {
-	fmt.Println("Go server on 48602 port")
+	fmt.Println("Go server on 46802 port")
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/readiness", ReadinessHandler)
